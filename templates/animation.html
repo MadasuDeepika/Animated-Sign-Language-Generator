@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+ 
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+
+      <h1 class="logo me-auto me-lg-0"><a href="index.html">Tarp Project</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'animation' %}">Convertor</a></li>
+          {% if not user.is_authenticated %}
+          <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'logout' %}">Log-Out</a></li>
+          {% else %}
+            <li><a href="{% url 'login' %}">Log-in</a></li>
+          {% endif %}
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+      </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+      <div class="header-social-links">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+
+    </div>
+
+  </header><!-- End Header -->
+<div class=></div>
+  <main id="main">
+
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio">
+      <div class="split left">
+        <h2 align="center">Enter Text or Use Mic</h2>
+        <br>
+          <form action="" method="post" align="left">
+          {% csrf_token %}
+                <input type="text" name="sen" class="mytext pad" id="speechToText" placeholder="">
+                <button type="button" name="button" class="mic" onclick="record()"><img src="{% static 'assets/mic.jpg' %}" height="32px" width="38px" /></button>
+                  &nbsp&nbsp&nbsp&nbsp
+                  <input type="submit" name="submit" class="submit">
+      
+          </form>
+          <br>
+          <table cellspacing="20px">
+            <tr>
+              <td class="td">The text that you entered is:</td>
+              <td class="td">{{ text }}</td>
+            </tr>
+            <tr>
+              <td class="td">Key words in sentence:</td>
+              <td class="td">
+              <ul class="td" id="list" align="center">
+                  {% for word in words %}
+                  <li id="{{ i }}" style="margin-right: 8px">{{ word }}</li>
+                  {% endfor %}
+              </ul>
+            </td>
+          </tr>
+        </table></div>
+        <div class="split right">
+        <h2 align="center">Sign Language Animation</h2>
+      
+        <div style="text-align:center">	&nbsp&nbsp
+          <button class="submit" onclick="playPause()">Play/Pause</button>
+          <!--  LETS USE ONLY PLAY PAUSE BUTTON WITH 720 *420 ,IT FITS THE SCREEN ASHISH
+      
+          <button onclick="makeBig()">Big</button>
+          <button onclick="makeSmall()">Small</button>
+          <button onclick="makeNormal()">Normal</button>-->
+      
+      
+          <video id="videoPlayer" width="600" height="350"  preload="auto" autoplay>
+            <source src="" type="video/mp4">
+          Your browser does not support HTML5 video.
+          </video>
+          </div></div>
+          <script>
+            //webkitSpeechRecognition api for speech to text conversion
+            function record(){
+              var recognition = new webkitSpeechRecognition();
+              recognition.lang='en-IN';
+          
+              recognition.onresult = function(event){
+                console.log(event)
+                document.getElementById('speechToText').value = event.results[0][0].transcript;
+              }
+              recognition.start();
+             }
+            function play()
+            {
+              var videoSource = new Array();
+              var	videos = document.getElementById("list").getElementsByTagName("li");
+              var j;
+              for(j=0;j<videos.length;j++)
+              {
+                videoSource[j] = "/static/assets/" + videos[j].innerHTML +".mp4";
+              }
+          
+              var i = 0; // define i
+              var videoCount = videoSource.length;
+          
+              function videoPlay(videoNum)
+              {
+                document.getElementById("list").getElementsByTagName("li")[videoNum].style.color = "#09edc7";
+                document.getElementById("list").getElementsByTagName("li")[videoNum].style.fontSize = "xx-large";
+                document.getElementById("videoPlayer").setAttribute("src", videoSource[videoNum]);
+                  document.getElementById("videoPlayer").load();
+                  document.getElementById("videoPlayer").play();
+          
+              }
+              document.getElementById('videoPlayer').addEventListener('ended', myHandler, false);
+              document.getElementById("list").getElementsByTagName("li")[0].style.color = "#09edc7";
+              document.getElementById("list").getElementsByTagName("li")[0].style.fontSize = "xx-large";
+          
+              videoPlay(0); // play the video
+          
+              function myHandler()
+              {
+                 document.getElementById("list").getElementsByTagName("li")[i].style.color = "#feda6a";
+                document.getElementById("list").getElementsByTagName("li")[i].style.fontSize = "20px";
+                i++;
+                  if (i == videoCount)
+                  {
+                         document.getElementById("videoPlayer").pause();
+                  }
+                   else
+                   {
+                      videoPlay(i);
+                  }
+              }
+            }
+            /* LETS USE ONLY PLAY PAUSE BUTTON WITH 720 *420 ,IT FITS THE SCREEN
+            function makeBig() {
+                document.getElementById("videoPlayer").width = 560;
+              document.getElementById("videoPlayer").height = 360;
+            }
+          
+            function makeSmall() {
+                document.getElementById("videoPlayer").width = 320;
+              document.getElementById("videoPlayer").height = 180;
+            }
+          
+            function makeNormal() {
+                document.getElementById("videoPlayer").width = 420;
+              document.getElementById("videoPlayer").height =280;
+            }*/
+            function playPause(){
+                if (document.getElementById("videoPlayer").paused){
+                  play();}
+                else{
+                  document.getElementById("videoPlayer").pause();}
+              }
+          
+            </script>
+          
+          
+    </section><!-- End Portfolio Section -->
+
+  </main><!-- End #main -->
+
+  
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/waypoints/noframework.waypoints.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+
+</body>
+
+</html>

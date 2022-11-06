@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+ 
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+
+      <h1 class="logo me-auto me-lg-0"><a href="index.html">Tarp Project</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'animation' %}">Convertor</a></li>
+          {% if not user.is_authenticated %}
+          <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'logout' %}">Log-Out</a></li>
+          {% else %}
+            <li><a href="{% url 'login' %}">Log-in</a></li>
+          {% endif %}
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+      </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+      <div class="header-social-links">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </header><!-- End Header -->
+
+  <section>
+  <main id="main">
+    
+  <div class="bg padding2">
+    <!-- ======= Login Section ======= -->
+<div class="margin1">
+    <div id="mainContainer">
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-md-6 col-xs-12">
+          <div class="p-4 centerOnMobile" >
+            <div class="formContainer">
+              <h2 class="p-2 h4 text-center"><i class=" fas fa-lock me-2"></i> Login</h2>
+    <div class="form-style"> 
+      <form class="site-form" action="." method="post">
+        {% csrf_token %}
+        
+        {{ form }}
+        {% if request.GET.next %}
+        
+        <div class="form-floating">
+          <input type="hidden" class="form-control m-5 " name="next" value="{{ request.GET.next }}"><br>
+  
+        </div>
+       
+        {% endif %}
+        <div class="mt-3">
+          <input type="checkbox" /> Remember me
+        </div>
+        <div id="btnHolder">
+        <input class="btn btn-lg btn-primary mt-3 w-100" type="submit" value="Login">
+      </div>
+      </form>
+      <div class="mt-2 text-center">
+        <a href="#">New? signup</a><br />
+        <a href="#">Forgot Password?</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</main><!-- End #main -->
+</section><!-- End Hero -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Madasu Deepika & Subhashri P</span></strong>. All Rights Reserved
+      </div>
+      </div>
+    </div>
+  </footer><!-- End  Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/waypoints/noframework.waypoints.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+  crossorigin="anonymous"></script>
+
+</body>
+
+</html>
